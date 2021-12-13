@@ -35,8 +35,19 @@ public class App extends Application {
         stage.show();
     }
 
-    public static void setSimulation(){
+    public static void setSimulation(int widthMap1, int heightMap1, double jungleRatio1){
+        simulationController = SimulationController.createController(widthMap1, heightMap1, jungleRatio1);
+        Scene scene = new Scene(simulationController.getSimulationView());
+        stage.setScene(scene);
+        stage.show();
+    }
 
+    public static void setSimulation(int widthMap1, int heightMap1, double jungleRatio1,int widthMap2, int heightMap2, double jungleRatio2){
+        stage.hide();
+        simulationController = SimulationController.createController(widthMap1, heightMap1, jungleRatio1, widthMap2, heightMap2, jungleRatio2);
+        Scene scene = new Scene(simulationController.getSimulationView());
+        stage.setScene(scene);
+        stage.show();
     }
 
 }
