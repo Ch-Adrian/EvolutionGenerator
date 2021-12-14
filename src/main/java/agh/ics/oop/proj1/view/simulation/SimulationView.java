@@ -7,6 +7,7 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Separator;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -26,7 +27,7 @@ public class SimulationView {
     private SimulationComponent simulationComponentRight;
     private SimulationController simulationController;
 
-    private VBox settings;
+    private BorderPane settings;
     private VBox legendBox;
     private VBox buttonsBox;
     private Button start;
@@ -84,7 +85,7 @@ public class SimulationView {
     }
 
     private void setMiddle(){
-        settings = new VBox();
+        settings = new BorderPane();
         legendBox = new VBox();
         start = new Button("Start");
         start.setPadding(new Insets(5,5,5,5));
@@ -150,8 +151,9 @@ public class SimulationView {
         legendBox.setPadding(new Insets(20, 5, 10, 5));
         legendBox.setAlignment(Pos.TOP_LEFT);
 
-        settings.getChildren().addAll(legendBox, buttonsBox);
-        settings.setSpacing(550);
+        settings.setTop(legendBox);
+        settings.setBottom(buttonsBox);
+        settings.setPadding(new Insets(5,5,10,5));
 
     }
 

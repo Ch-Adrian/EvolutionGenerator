@@ -15,7 +15,7 @@ public class SettingsController {
         return new SettingsController(isTwoMap);
     }
 
-    public SettingsController(boolean isTwoMap){
+    private SettingsController(boolean isTwoMap){
         if(isTwoMap) {
             settingsModel = new SettingsModel();
             settingsView = new SettingsView(this, settingsModel.getDefaultParam(), settingsModel.getDefaultParam());

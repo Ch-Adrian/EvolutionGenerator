@@ -7,7 +7,9 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
+import javafx.util.Pair;
 
+import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ChartComponent {
@@ -44,13 +46,31 @@ public class ChartComponent {
         series[5].setName("Offspring amount");
 
         lineChart.getData().addAll(series);
+        /*ArrayList<Pair<Integer,Integer>> a = new ArrayList<>();
+        a.add(new Pair<>(1,1));
+        a.add(new Pair<>(5,17));
+        a.add(new Pair<>(3,12));
+        a.add(new Pair<>(9,25));
+        a.add(new Pair<>(2,7));
+        a.add(new Pair<>(3,8));
+        addSeriesData(a);*/
+
     }
 
     public LineChart<Number, Number> getLineChart() {
         return lineChart;
     }
 
-    public void addSeriesData(/**/){
+    public void addSeriesData(ArrayList<Pair<Integer,Integer>> array){
 
+        if(array.size() == 6){
+            for(int i =0 ; i<6; i++){
+                series[i].getData().add(new XYChart.Data(array.get(i).getKey(),
+                        array.get(i).getValue()));
+            }
+        }
+        else{
+            System.out.println("Lack of data.");
+        }
     }
 }

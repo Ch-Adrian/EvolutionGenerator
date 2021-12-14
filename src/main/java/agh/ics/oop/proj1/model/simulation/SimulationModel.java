@@ -3,6 +3,8 @@ package agh.ics.oop.proj1.model.simulation;
 import agh.ics.oop.proj1.controller.SimulationController;
 import javafx.scene.paint.Color;
 
+import static javafx.scene.paint.Color.rgb;
+
 public class SimulationModel {
 
     private final Color colorAnimal;
@@ -14,10 +16,10 @@ public class SimulationModel {
 
     public SimulationModel(SimulationController simulationController){
         this.simulationController = simulationController;
-        colorAnimal = Color.RED;
-        colorPlant = new Color(0, 1, 0, 1);
-        colorSteppe = new Color(0.5, 1, 0, 1);
-        colorJungle = Color.GREEN;
+        colorAnimal = rgb(139,0,139);
+        colorPlant = rgb(204,204,0);
+        colorSteppe = rgb(154,205,50);
+        colorJungle = rgb(34,139,34);
         pointsPolygon = new Double[]{
                 4.0,0.0,
                 5.0,3.0,

@@ -13,7 +13,7 @@ public class MenuController {
         return new MenuController();
     }
 
-    public MenuController(){
+    private MenuController(){
         menuView = new MenuView(this);
     }
 
