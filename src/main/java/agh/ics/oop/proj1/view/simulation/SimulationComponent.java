@@ -8,12 +8,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
-import java.util.ArrayList;
 
 public class SimulationComponent {
 
     private VBox vBox;
     private Label epoch;
+    private Label dominantGenotype;
     private GridPaneComponent gridPaneComponent;
     private ChartComponent chartComponent;
     private BorderPane borderBox;
@@ -25,14 +25,26 @@ public class SimulationComponent {
         epoch.setPadding(new Insets(20,0,0,20));
         epoch.setFont(new Font(30));
 
+        dominantGenotype = new Label("Dominant genotype: ");
+        dominantGenotype.setPadding(new Insets(3,0,0,20));
+        dominantGenotype.setFont(new Font(20));
+
         gridPaneComponent = new GridPaneComponent(widthMap,heightMap, jungleParam, colors);
         chartComponent = new ChartComponent();
 
-        vBox.getChildren().addAll(epoch, gridPaneComponent.getGridPane());
+        vBox.getChildren().addAll(epoch, dominantGenotype, gridPaneComponent.getGridPane());
         vBox.alignmentProperty().setValue(Pos.TOP_LEFT);
         borderBox.setTop(vBox);
         borderBox.setBottom(chartComponent.getLineChart());
         //vBox.setPrefWidth(1000);
+    }
+
+    public void setTextDominantGenotype(String genotype) {
+        this.dominantGenotype.setText(genotype);
+    }
+
+    public void setTextEpoch(String epoch) {
+        this.epoch.setText(epoch);
     }
 
     public BorderPane getvBox() {

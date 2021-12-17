@@ -27,14 +27,13 @@ public class SettingsController {
 
     public void buttonCreate(ArrayList<String> realValues){
         settingsModel.setUserParamMap1(realValues);
-        App.setSimulation(settingsModel.getWidthMap(), settingsModel.getHeightMap(), settingsModel.getJungleRatio());
+        App.setSimulation(settingsModel, false);
     }
 
     public void buttonCreate(ArrayList<String> realValues, ArrayList<String> realValues2){
         settingsModel.setUserParamMap1(realValues);
         settingsModel.setUserParamMap2(realValues2);
-        App.setSimulation(settingsModel.getWidthMap(), settingsModel.getHeightMap(), settingsModel.getJungleRatio(),
-                settingsModel.getWidthMap2(), settingsModel.getHeightMap2(), settingsModel.getJungleRatio2());
+        App.setSimulation(settingsModel, true);
     }
 
     public VBox getSettingsView(){

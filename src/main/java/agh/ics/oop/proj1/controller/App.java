@@ -1,5 +1,6 @@
 package agh.ics.oop.proj1.controller;
 
+import agh.ics.oop.proj1.model.settings.SettingsModel;
 import agh.ics.oop.proj1.view.settings.SettingsComponent;
 import agh.ics.oop.proj1.view.simulation.SimulationView;
 import javafx.application.Application;
@@ -35,19 +36,11 @@ public class App extends Application {
         stage.show();
     }
 
-    public static void setSimulation(int widthMap1, int heightMap1, double jungleRatio1){
-        simulationController = SimulationController.createController(widthMap1, heightMap1, jungleRatio1);
-        Scene scene = new Scene(simulationController.getSimulationView());
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    public static void setSimulation(int widthMap1, int heightMap1, double jungleRatio1,int widthMap2, int heightMap2, double jungleRatio2){
+    public static void setSimulation(SettingsModel settingsModel, boolean isTwoMap){
         stage.hide();
-        simulationController = SimulationController.createController(widthMap1, heightMap1, jungleRatio1, widthMap2, heightMap2, jungleRatio2);
+        simulationController = SimulationController.createController(settingsModel, isTwoMap);
         Scene scene = new Scene(simulationController.getSimulationView());
         stage.setScene(scene);
         stage.show();
     }
-
 }

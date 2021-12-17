@@ -137,4 +137,12 @@ public class SettingsModel {
     public int getHeightMap2() {
         return heightMap2;
     }
+
+    public boolean getMagic(){ return this.magicEvolution; }
+
+    public boolean getMagic2(){ return this.magicEvolution2; }
+
+    public boolean getWall(){ return this.wall; }
+
+    public boolean getWall2(){ return this.wall2; }
 }

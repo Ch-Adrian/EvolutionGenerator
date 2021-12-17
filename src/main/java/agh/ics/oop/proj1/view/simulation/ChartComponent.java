@@ -61,12 +61,12 @@ public class ChartComponent {
         return lineChart;
     }
 
-    public void addSeriesData(ArrayList<Pair<Integer,Integer>> array){
+    public void addSeriesData(Pair<Integer,Integer[]> stat){
 
-        if(array.size() == 6){
+        if(stat.getValue().length == 6){
             for(int i =0 ; i<6; i++){
-                series[i].getData().add(new XYChart.Data(array.get(i).getKey(),
-                        array.get(i).getValue()));
+                series[i].getData().add(new XYChart.Data(stat.getKey(),
+                        stat.getValue()[i]));
             }
         }
         else{
