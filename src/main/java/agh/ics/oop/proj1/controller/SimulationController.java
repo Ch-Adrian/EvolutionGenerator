@@ -40,6 +40,10 @@ public class SimulationController {
 
     }
 
+    public void startButton(){
+        this.worldL.startButton();
+    }
+
     public HBox getSimulationView(){
         return simulationView.gethBox();
     }

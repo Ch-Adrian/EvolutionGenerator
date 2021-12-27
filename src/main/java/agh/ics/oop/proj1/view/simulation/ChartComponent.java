@@ -21,7 +21,6 @@ public class ChartComponent {
     /*
     - liczby wszystkich zwierząt,
     - liczby wszystkich roślin,
-    - dominujących genotypów (dominanta z genotypów, a nie genów),
     - średniego poziomu energii dla żyjących zwierząt,
     - średniej długości życia zwierząt dla martwych zwierząt (wartość uwzględnia wszystkie nieżyjące zwierzęta - od początku symulacji),
     - średniej liczby dzieci dla żyjących zwierząt (wartość uwzględnia wszystkie powstałe zwierzęta, a nie tylko zwierzęta powstałe w danej epoce).
@@ -34,16 +33,15 @@ public class ChartComponent {
         lineChart = new LineChart<>(xAxis,yAxis);
         lineChart.setCreateSymbols(false);
 
-        series = new XYChart.Series[6];
-        for(int i=0; i<6; i++){
+        series = new XYChart.Series[5];
+        for(int i=0; i<5; i++){
             series[i] = new XYChart.Series();
         }
         series[0].setName("Animals");
         series[1].setName("Plants");
-        series[2].setName("Genotype");
-        series[3].setName("Average energy");
-        series[4].setName("Life time");
-        series[5].setName("Offspring amount");
+        series[2].setName("Average energy");
+        series[3].setName("Life time");
+        series[4].setName("Offspring amount");
 
         lineChart.getData().addAll(series);
         /*ArrayList<Pair<Integer,Integer>> a = new ArrayList<>();
@@ -63,8 +61,8 @@ public class ChartComponent {
 
     public void addSeriesData(Pair<Integer,Integer[]> stat){
 
-        if(stat.getValue().length == 6){
-            for(int i =0 ; i<6; i++){
+        if(stat.getValue().length == 5){
+            for(int i =0 ; i<5; i++){
                 series[i].getData().add(new XYChart.Data(stat.getKey(),
                         stat.getValue()[i]));
             }

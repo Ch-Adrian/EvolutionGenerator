@@ -31,7 +31,24 @@ public class DominantGenotype {
                  return o2.getKey() - o1.getKey();
              }
          });
-         return this.genotypes.get(0).getValue();
+         if(genotypes.size()!=0) {
+             return this.genotypes.get(0).getValue();
+         }else{
+             return "";
+         }
+    }
+
+    public void removeGenotype(String genotype){
+        for(Pair<Integer, String> p: this.genotypes){
+            if(p.getValue().equals(genotype)){
+                int temp = p.getKey();
+                this.genotypes.remove(p);
+                if(temp>1) {
+                    this.genotypes.add(new Pair<Integer, String>(temp - 1, genotype));
+                }
+                return;
+            }
+        }
     }
 
 }

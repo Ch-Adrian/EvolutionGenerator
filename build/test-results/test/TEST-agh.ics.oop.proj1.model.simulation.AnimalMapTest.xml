@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="agh.ics.oop.proj1.model.simulation.AnimalMapTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-12-17T09:16:18" hostname="DESKTOP-ODIJNVT" time="0.018">
+<testsuite name="agh.ics.oop.proj1.model.simulation.AnimalMapTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-12-27T19:50:02" hostname="DESKTOP-ODIJNVT" time="0.031">
   <properties/>
-  <testcase name="getHighestEnergyTest()" classname="agh.ics.oop.proj1.model.simulation.AnimalMapTest" time="0.018"/>
+  <testcase name="getTwoAnimalsTest()" classname="agh.ics.oop.proj1.model.simulation.AnimalMapTest" time="0.031"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

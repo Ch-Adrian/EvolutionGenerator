@@ -1,6 +1,7 @@
 package agh.ics.oop.proj1.view.simulation;
 
 import agh.ics.oop.proj1.controller.SimulationController;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
@@ -90,6 +91,11 @@ public class SimulationView {
         start = new Button("Start");
         start.setPadding(new Insets(5,5,5,5));
         start.setPrefWidth(150);
+
+        start.setOnAction((event -> {
+            simulationController.startButton();
+        }));
+
         exportData = new Button("Export data");
         exportData.setPadding(new Insets(5,5,5,5));
         exportData.setPrefWidth(150);

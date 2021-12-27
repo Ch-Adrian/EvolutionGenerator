@@ -1,11 +1,9 @@
 package agh.ics.oop.proj1.model.simulation;
 
 import agh.ics.oop.proj1.controller.NoElementException;
+import javafx.util.Pair;
 
-import java.util.Comparator;
-import java.util.NoSuchElementException;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class AnimalMap {
 
@@ -17,7 +15,7 @@ public class AnimalMap {
 
         @Override
         public int compare(Animal o1, Animal o2) {
-            return o1.getEnergy() - o2.getEnergy();
+            return o2.getEnergy() - o1.getEnergy();
         }
     }
 
@@ -44,4 +42,40 @@ public class AnimalMap {
         }
         return this.map[x][y].last().getEnergy();
     }
+
+    public void removeAnimal(Animal a){
+        this.map[a.getX()][a.getY()].remove(a);
+    }
+
+    public Pair<Animal, Animal> getTwoAnimalsFromPosition(int x, int y){
+        if(this.map[x][y].size() < 2) return new Pair<>(null,null);
+        Iterator<Animal> iterator = this.map[x][y].iterator();
+        return new Pair<>(iterator.next(), iterator.next());
+    }
+
+    public boolean eatPlantOnPosition(int x, int y, int energy){
+//        this.map[x][y].first().eatPlant(energy);
+        if(this.map[x][y].size() == 0) return false;
+        int maxEnergy = 0;
+        int cnt = 1;
+        for(Animal a: this.map[x][y]){
+            if(a.getEnergy() > maxEnergy){
+                maxEnergy = a.getEnergy();
+                cnt = 1;
+            }
+            else if(a.getEnergy() == maxEnergy){
+                cnt += 1;
+            }
+        }
+
+        for(Animal a: this.map[x][y]){
+            if(a.getEnergy() == maxEnergy){
+                a.eatPlant((int) Math.floor(energy/cnt));
+            }
+        }
+
+        return true;
+
+    }
+
 }

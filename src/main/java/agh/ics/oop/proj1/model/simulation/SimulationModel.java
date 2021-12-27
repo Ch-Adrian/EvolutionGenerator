@@ -17,7 +17,7 @@ public class SimulationModel {
     public SimulationModel(SimulationController simulationController){
         this.simulationController = simulationController;
         colorAnimal = rgb(139,0,139);
-        colorPlant = rgb(204,204,0);
+        colorPlant = Color.RED;//rgb(204,204,0);
         colorSteppe = rgb(154,205,50);
         colorJungle = rgb(34,139,34);
         pointsPolygon = new Double[]{

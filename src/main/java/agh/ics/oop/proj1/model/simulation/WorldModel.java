@@ -5,6 +5,8 @@ import javafx.scene.paint.Color;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.concurrent.locks.ReentrantLock;
 
 import static javafx.scene.paint.Color.rgb;
 
@@ -13,6 +15,7 @@ public class WorldModel {
     private final int widthMap;
     private final int heightMap;
     private final int animalEnergy;
+    private final boolean wall;
 
     private final Double jungleRatio;
     private final int junglePosX;
@@ -22,17 +25,19 @@ public class WorldModel {
 
     private AnimalMap animalMap;
 
-    private ArrayList<Pair<Integer, Integer[]>> statistics;
     private ArrayList<Animal> animals;
     private ArrayList<Plant> plants;
     private Integer epoch;
 
-    public WorldModel(int widthMap, int heightMap, double jungleRatio, int animalEnergy) {
+
+    ReentrantLock reentrantLock = new ReentrantLock();
+
+    public WorldModel(int widthMap, int heightMap, double jungleRatio, int animalEnergy, boolean wall) {
 
         this.animals = new ArrayList<>();
         this.plants = new ArrayList<>();
         this.epoch = 0;
-
+        this.wall = wall;
         animalMap = new AnimalMap(widthMap, heightMap);
         this.animalEnergy = animalEnergy;
 
@@ -46,7 +51,6 @@ public class WorldModel {
         this.junglePosX = (this.widthMap - this.jungleWidth) / 2;
         this.junglePosY = (this.heightMap - this.jungleHeight) / 2;
 
-        statistics = new ArrayList<>();
     }
 
     public int[] getJungleParam() {
@@ -54,11 +58,8 @@ public class WorldModel {
                 this.jungleWidth, this.jungleHeight};
     }
 
-    public void addStatistic(int day, Integer[] values) {
-        statistics.add(new Pair<Integer, Integer[]>(day, values));
-    }
-
     public void addAnimal(Animal animal){
+
         this.animals.add(animal);
         this.animalMap.placeAnimal(animal.getX(), animal.getY(),animal);
     }
@@ -105,4 +106,54 @@ public class WorldModel {
     public String getEpoch(){
         return this.epoch.toString();
     }
+
+    public Integer getEpochInt() { return this.epoch; }
+
+    //During iteration in arrayList animals:
+    public void removeAnimal(Animal a, Iterator<Animal> iterator){
+        this.animalMap.removeAnimal(a);
+        iterator.remove();
+    }
+
+    public void removeAnimal(Animal a){
+        this.animals.remove(a);
+        this.animalMap.removeAnimal(a);
+    }
+
+    public ArrayList<Animal> getAnimals() {
+        return animals;
+    }
+
+    public ArrayList<Plant> getPlants() {
+        return plants;
+    }
+
+    public void addAnimalToMap(Animal a){
+        this.animalMap.placeAnimal(a.getX(),a.getY(), a);
+    }
+
+    public void removeAnimalFromMap(Animal a){
+        this.animalMap.removeAnimal(a);
+    }
+
+    public int getWidthMap() {
+        return widthMap;
+    }
+
+    public int getHeightMap() {
+        return heightMap;
+    }
+
+    public boolean isWall() {
+        return wall;
+    }
+
+    public boolean eatPlantOnPosition(int x, int y, int energy){
+        return this.animalMap.eatPlantOnPosition(x,y,energy);
+    }
+
+    public Pair<Animal, Animal> getTwoAnimalsFromPosition(int x, int y){
+        return this.animalMap.getTwoAnimalsFromPosition(x,y);
+    }
+
 }
