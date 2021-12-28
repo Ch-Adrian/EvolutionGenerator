@@ -457,7 +457,9 @@ public class World {
         }
 
         for(int i = 0; i<5; i++){
-            avg[i] = (int)(avg[i]/maxIdx);
+            if(maxIdx != 0) {
+                avg[i] = (int) (avg[i] / maxIdx);
+            }
         }
 
         StringBuilder stringBuilder = new StringBuilder();

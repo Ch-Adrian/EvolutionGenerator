@@ -32,7 +32,9 @@ public class SimulationView {
     private VBox legendBox;
     private VBox buttonsBox;
     private Button start;
+    private Button start2;
     private Button exportData;
+    private Button exportData2;
     private Button dominantGenotype;
     private Label labelLegend;
     private Label labelMap;
@@ -88,23 +90,43 @@ public class SimulationView {
     private void setMiddle(){
         settings = new BorderPane();
         legendBox = new VBox();
-        start = new Button("Start");
+
+        start = new Button("Start Map 1");
         start.setPadding(new Insets(5,5,5,5));
         start.setPrefWidth(150);
 
         start.setOnAction((event -> {
             if(simulationController.startButton()){
-                start.setText("Stop");
+                start.setText("Stop Map 1");
             }else{
-                start.setText("Start");
+                start.setText("Start Map 1");
             }
         }));
 
-        exportData = new Button("Export data");
+        start2 = new Button("Start Map 2");
+        start2.setPadding(new Insets(5,5,5,5));
+        start2.setPrefWidth(150);
+
+        start2.setOnAction((event -> {
+            if(simulationController.start2Button()){
+                start2.setText("Stop Map 2");
+            }else{
+                start2.setText("Start Map 2");
+            }
+        }));
+
+        exportData = new Button("Export data map1");
         exportData.setPadding(new Insets(5,5,5,5));
         exportData.setPrefWidth(150);
         exportData.setOnAction((event)->{
             this.simulationController.saveToFile();
+        });
+
+        exportData2 = new Button("Export data map 2");
+        exportData2.setPadding(new Insets(5,5,5,5));
+        exportData2.setPrefWidth(150);
+        exportData2.setOnAction((event)->{
+            this.simulationController.saveToFile2();
         });
 
         dominantGenotype = new Button("Dominant genotype");
@@ -112,7 +134,7 @@ public class SimulationView {
         dominantGenotype.setPrefWidth(150);
 
         buttonsBox = new VBox();
-        buttonsBox.getChildren().addAll(exportData, start);
+        buttonsBox.getChildren().addAll(exportData, exportData2, start, start2);
         buttonsBox.setSpacing(10);
         int iconSize = 15;
 

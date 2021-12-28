@@ -22,6 +22,7 @@ public class SimulationController {
     private World worldR;
     private boolean isTwoMap;
     private boolean simulationRuns;
+    private boolean simulation2Runs;
 
     public static SimulationController createController(SettingsModel settingsModel, boolean isTwoMap){
         return new SimulationController(settingsModel, isTwoMap);
@@ -29,6 +30,7 @@ public class SimulationController {
 
     private SimulationController(SettingsModel settingsModel, boolean isTwoMap){
         this.simulationRuns=false;
+        this.simulation2Runs=false;
         this.isTwoMap = isTwoMap;
         this.settingsModel = settingsModel;
         this.simulationModel = new SimulationModel(this);
@@ -53,20 +55,33 @@ public class SimulationController {
         if(this.simulationRuns){
             this.simulationRuns=false;
             this.worldL.stopSimulation();
-            if (this.isTwoMap) {
-                this.worldR.stopSimulation();
-            }
         }else {
             this.simulationRuns=true;
             this.worldL.startButton();
-            if (this.isTwoMap) {
-                this.worldR.startButton();
-            }
         }
         return this.simulationRuns;
     }
 
+    public boolean start2Button(){
+        if(this.isTwoMap) {
+            if (this.simulation2Runs) {
+                this.simulation2Runs = false;
+                this.worldR.stopSimulation();
+
+            } else {
+                this.simulation2Runs = true;
+                this.worldR.startButton();
+            }
+        }
+        return this.simulation2Runs;
+    }
+
+
+
     public void saveToFile(){
+
+        if(this.simulationRuns || this.simulation2Runs) return;
+
         File csvFile = new File("lastSimulationWorld1.csv");
         if(csvFile.isFile()){
             csvFile.delete();
@@ -82,6 +97,11 @@ public class SimulationController {
         } catch(IOException ioE){
             return;
         }
+    }
+
+    public void saveToFile2(){
+
+        if(this.simulation2Runs) return;
         if(isTwoMap){
             File csvFile2 = new File("lastSimulationWorld2.csv");
             if(csvFile2.isFile()){
