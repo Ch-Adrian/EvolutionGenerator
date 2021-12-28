@@ -2,17 +2,20 @@ package agh.ics.oop.proj1.model.simulation;
 
 import java.text.BreakIterator;
 import java.util.Objects;
+import java.util.Random;
 
 public class Animal extends MapElement implements ICanMove{
 
     private String genotype;
     private int amtOfChildren;
     private int days;
-    private int orientation = 0;
+    private int orientation;
     private WorldModel worldModel;
 
     public Animal(int x, int y, int energy, String g, WorldModel wM){
         super(x, y, energy);
+        Random rand = new Random();
+        this.orientation = Math.abs(rand.nextInt()%8);
         this.genotype = g;
         this.amtOfChildren = 0;
         this.days=0;
@@ -20,6 +23,8 @@ public class Animal extends MapElement implements ICanMove{
     }
     private Animal(int x, int y, int energy, String g, int amtOfChildren, int days, WorldModel wM){
         super(x, y, energy);
+        Random rand = new Random();
+        this.orientation = Math.abs(rand.nextInt()%8);
         this.genotype = g;
         this.amtOfChildren = amtOfChildren;
         this.days=days;

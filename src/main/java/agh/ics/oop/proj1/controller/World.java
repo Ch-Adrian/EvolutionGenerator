@@ -107,14 +107,12 @@ public class World {
             avgEnergy += a.getEnergy();
             avgChildren += a.getAmtOfChildren();
         }
-//        System.out.println("AvgChildren: "+avgChildren);
         int energ = 0;
         double children = 0;
         if(this.worldModel.getAnimals().size() != 0){
             energ = avgEnergy / this.worldModel.getAnimals().size();
             children = avgChildren / (this.worldModel.getAnimals().size());
         }
-//        System.out.println("Children: "+children);
         this.statistic.addStatistic(this.worldModel.getEpochInt(), new Integer[]{
                 this.worldModel.getAnimals().size(),
                 this.worldModel.getPlants().size(),
@@ -204,13 +202,6 @@ public class World {
                     changer.addChange(a.getX(),a.getY());
                     dominantGenotype.addGenotype(geno);
                     animalArrayList.add(tempA);
-//                    this.createAnimal(
-//                            a.getX(),
-//                            a.getY(),
-//                            p.getKey().getEnergy()/4 + p.getValue().getEnergy()/4,
-//                            crossGenotype(p.getKey().getGenotype(),p.getValue().getGenotype(),
-//                                    p.getKey().getEnergy(), p.getValue().getEnergy()));
-
 
                     p.getValue().setEnergy(p.getValue().getEnergy()*3/4);
                     p.getKey().setEnergy(p.getKey().getEnergy()*3/4);
@@ -235,7 +226,7 @@ public class World {
     }
 
     public void createAnimal(int x, int y, int energy, String genotype){
-        Animal ani = new Animal(x,y,energy, genotype, this.worldModel);
+        Animal ani = new Animal(x, y, energy, genotype, this.worldModel);
 
         changer.addChange(x,y);
         worldModel.addAnimal(ani);
@@ -320,6 +311,7 @@ public class World {
         Random random = new Random();
         int cnt = 0;
         int x,y;
+        int steppeSize = jungleP[0]*jungleP[3]*2 + this.widthMap *jungleP[0]*2;
         do {
             switch(Math.abs(random.nextInt())%4){
                 case 0:
@@ -343,7 +335,7 @@ public class World {
                     y = 0;
             }
             cnt++;
-            if(cnt >= this.heightMap*this.widthMap*(1-this.jungleRatio))
+            if(cnt >= steppeSize)
             {
                 return;
             }

@@ -48,7 +48,6 @@ public class SimulationController {
             this.simulationView = new SimulationView(this, this.simulationModel.getColors(), this.simulationModel.getPointsPolygon(),
                     this.worldL.getSimulationComponent());
         }
-
     }
 
     public boolean startButton(){

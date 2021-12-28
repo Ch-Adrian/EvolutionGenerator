@@ -45,9 +45,13 @@ public class WorldModel {
         this.widthMap = widthMap;
         this.heightMap = heightMap;
         double sqrtJungleRatio = Math.sqrt(this.jungleRatio);
+        double jungleX = 0;
+        for(jungleX = 0; Math.abs(jungleX+jungleX*sqrtJungleRatio - this.widthMap/2) >= 1; jungleX+=0.3);
+        double jungleY = 0;
+        for(jungleY = 0; Math.abs(jungleY+jungleY*sqrtJungleRatio - this.heightMap/2) >= 1; jungleY+=0.3);
 
-        this.jungleWidth = (int) Math.floor(this.widthMap * sqrtJungleRatio);
-        this.jungleHeight = (int) Math.floor(this.heightMap * sqrtJungleRatio);
+        this.jungleWidth = 2*(int)jungleX; // (int) Math.floor(this.widthMap * sqrtJungleRatio);
+        this.jungleHeight = 2*(int)jungleY;//(int) Math.floor(this.heightMap * sqrtJungleRatio);
         this.junglePosX = (this.widthMap - this.jungleWidth) / 2;
         this.junglePosY = (this.heightMap - this.jungleHeight) / 2;
 
