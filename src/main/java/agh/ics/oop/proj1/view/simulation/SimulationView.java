@@ -93,7 +93,11 @@ public class SimulationView {
         start.setPrefWidth(150);
 
         start.setOnAction((event -> {
-            simulationController.startButton();
+            if(simulationController.startButton()){
+                start.setText("Stop");
+            }else{
+                start.setText("Start");
+            }
         }));
 
         exportData = new Button("Export data");
@@ -104,7 +108,7 @@ public class SimulationView {
         dominantGenotype.setPrefWidth(150);
 
         buttonsBox = new VBox();
-        buttonsBox.getChildren().addAll(exportData, dominantGenotype, start);
+        buttonsBox.getChildren().addAll(exportData, start);
         buttonsBox.setSpacing(10);
         int iconSize = 15;
 

@@ -96,8 +96,12 @@ public class SettingsComponent {
         for(int i = 0;i <4; i++){
             arrayList.add(textFields[i].getText());
         }
-        arrayList.add(checkBox1.getText());
-        arrayList.add(checkBox2.getText());
+        if(checkBox1.isSelected()){
+            arrayList.add("true");
+        } else arrayList.add("false");
+        if(checkBox2.isSelected()){
+            arrayList.add("true");
+        } else arrayList.add("false");
         for(int i =4; i<7; i++){
             arrayList.add(textFields[i].getText());
         }

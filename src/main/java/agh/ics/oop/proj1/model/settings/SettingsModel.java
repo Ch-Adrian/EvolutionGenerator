@@ -42,13 +42,13 @@ public class SettingsModel {
 
         defaultParam.add("50");
         defaultParam.add("50");
-        defaultParam.add("10");
+        defaultParam.add("1000");
         defaultParam.add("0.5");
         defaultParam.add("false");
         defaultParam.add("false");
-        defaultParam.add("20");
+        defaultParam.add("200");
         defaultParam.add("1");
-        defaultParam.add("5");
+        defaultParam.add("50");
     }
 
     public ArrayList<String> getDefaultParam() {

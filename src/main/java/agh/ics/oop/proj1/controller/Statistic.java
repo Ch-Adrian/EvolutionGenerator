@@ -13,7 +13,7 @@ public class Statistic {
 
     public Statistic(int amtOfAnimals, int amtOfPlants, int avgEnergy){
         statistics = new ArrayList<>();
-        statistics.add(new Pair<>(1, new Integer[]{amtOfAnimals, amtOfPlants,
+        statistics.add(new Pair<>(0, new Integer[]{amtOfAnimals, amtOfPlants,
         avgEnergy, 0, 0}));
     }
 

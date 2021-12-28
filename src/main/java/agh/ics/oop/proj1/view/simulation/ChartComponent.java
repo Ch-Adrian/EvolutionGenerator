@@ -63,7 +63,9 @@ public class ChartComponent {
 
         if(stat.getValue().length == 5){
             for(int i =0 ; i<5; i++){
-                series[i].getData().add(new XYChart.Data(stat.getKey(),
+
+                series[i].getData().add(
+                        new XYChart.Data(stat.getKey(),
                         stat.getValue()[i]));
             }
         }

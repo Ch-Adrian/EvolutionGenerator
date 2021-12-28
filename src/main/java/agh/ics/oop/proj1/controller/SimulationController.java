@@ -15,12 +15,16 @@ public class SimulationController {
 
     private World worldL;
     private World worldR;
+    private boolean isTwoMap;
+    private boolean simulationRuns;
 
     public static SimulationController createController(SettingsModel settingsModel, boolean isTwoMap){
         return new SimulationController(settingsModel, isTwoMap);
     }
 
     private SimulationController(SettingsModel settingsModel, boolean isTwoMap){
+        this.simulationRuns=false;
+        this.isTwoMap = isTwoMap;
         this.settingsModel = settingsModel;
         this.simulationModel = new SimulationModel(this);
         this.worldL = new World(settingsModel.getWidthMap(), settingsModel.getHeightMap(), settingsModel.getJungleRatio()
@@ -40,8 +44,21 @@ public class SimulationController {
 
     }
 
-    public void startButton(){
-        this.worldL.startButton();
+    public boolean startButton(){
+        if(this.simulationRuns){
+            this.simulationRuns=false;
+            this.worldL.stopSimulation();
+            if (this.isTwoMap) {
+                this.worldR.stopSimulation();
+            }
+        }else {
+            this.simulationRuns=true;
+            this.worldL.startButton();
+            if (this.isTwoMap) {
+                this.worldR.startButton();
+            }
+        }
+        return this.simulationRuns;
     }
 
     public HBox getSimulationView(){

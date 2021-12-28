@@ -5,10 +5,10 @@ import agh.ics.oop.proj1.model.simulation.Plant;
 import agh.ics.oop.proj1.model.simulation.WorldModel;
 import agh.ics.oop.proj1.view.simulation.SimulationComponent;
 import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
 
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -32,6 +32,12 @@ public class World {
     private final int energyPlant;
     private final int energyDayLoss;
 
+    private int magicCounter = 0;
+
+    private Thread simulationThread;
+    private int timeDelay;
+    private boolean simulationRuns;
+
     public World(int widthMap, int heightMap, double jungleRatio, Color[] colors,
                 int amountOfAnimals, boolean magic, boolean wall,
                  int energyAnimal, int energyPlant, int energyDayLoss){
@@ -45,7 +51,8 @@ public class World {
         this.energyAnimal = energyAnimal;
         this.energyPlant = energyPlant;
         this.energyDayLoss = energyDayLoss;
-
+        this.timeDelay=100;
+        this.simulationRuns = false;
         this.worldModel = new WorldModel(widthMap, heightMap, jungleRatio, energyAnimal, wall);
 
         this.simulationComponent = new SimulationComponent(widthMap, heightMap,
@@ -56,18 +63,8 @@ public class World {
 
         this.dominantGenotype = new DominantGenotype();
         this.statistic = new Statistic(this.amountOfAnimals, 2, this.energyAnimal);
-
         this.setWorld();
-        
-            for(int i = 0; i<1000; i++) {
-                generateDay();
 
-                try{
-                    Thread.sleep(1000);
-                }catch (Exception e){
-
-                }
-            }
     }
 
     private void setWorld(){
@@ -80,21 +77,26 @@ public class World {
         createPlantInJungle();
         createPlantInSteppe();
 
-        this.changer.applyView();
-        applyViewEpoch();
-        applyViewGenotype();
-        applyViewChart();
+            this.changer.applyView();
+            applyViewEpoch();
+            applyViewGenotype();
+            applyViewChart();
     }
 
     private void generateDay(){
+
         removeDeadAnimals();
         moveAnimals();
         eatPlants();
         multiplyAnimals();
         createPlantInJungle();
         createPlantInSteppe();
+        this.worldModel.incrementEpoch();
 
-
+        if(magic && magicCounter<3 && this.worldModel.getAnimals().size() == 5){
+            this.applyMagic();
+            this.magicCounter ++;
+        }
 
         Integer avgEnergy = 0;
         Integer avgChildren = 0;
@@ -104,26 +106,29 @@ public class World {
             avgEnergy += a.getEnergy();
             avgChildren += a.getAmtOfChildren();
         }
-
+//        System.out.println("AvgChildren: "+avgChildren);
         int energ = 0;
-        int children = 0;
+        double children = 0;
         if(this.worldModel.getAnimals().size() != 0){
             energ = avgEnergy / this.worldModel.getAnimals().size();
-            children = avgChildren / this.worldModel.getAnimals().size();
+            children = avgChildren / (this.worldModel.getAnimals().size());
         }
-
+//        System.out.println("Children: "+children);
         this.statistic.addStatistic(this.worldModel.getEpochInt(), new Integer[]{
                 this.worldModel.getAnimals().size(),
                 this.worldModel.getPlants().size(),
                 energ,
                 this.statistic.avgOfDead(),
-                children
+                (int)children
         });
 
-        this.changer.applyView();
-        applyViewEpoch();
-        applyViewGenotype();
-        applyViewChart();
+        Platform.runLater(()->{
+            this.changer.applyView();
+            applyViewEpoch();
+            applyViewGenotype();
+            applyViewChart();
+        });
+
     }
 
     private void removeDeadAnimals(){
@@ -177,6 +182,8 @@ public class World {
             }
         }
 
+        ArrayList<Animal> animalArrayList = new ArrayList<>();
+
         for(Iterator<Animal> iterator = this.worldModel.getAnimals().iterator(); iterator.hasNext();) {
             Animal a = iterator.next();
             if(isVisited[a.getX()][a.getY()]) continue;
@@ -184,23 +191,42 @@ public class World {
             Pair<Animal,Animal> p = this.worldModel.getTwoAnimalsFromPosition(a.getX(),a.getY());
             if(p.getKey() != null && p.getValue() != null){
                 if(p.getValue().getEnergy()>energyAnimal/2 && p.getKey().getEnergy()>energyAnimal/2){
-                    this.createAnimal(
-                            a.getX(),
+
+                    String geno = crossGenotype(p.getKey().getGenotype(),p.getValue().getGenotype(),
+                                p.getKey().getEnergy(), p.getValue().getEnergy());
+
+                    Animal tempA = new Animal(a.getX(),
                             a.getY(),
                             p.getKey().getEnergy()/4 + p.getValue().getEnergy()/4,
-                            crossGenotype(p.getKey().getGenotype(),p.getValue().getGenotype(),
-                                    p.getKey().getEnergy(), p.getValue().getEnergy()));
+                            geno, this.worldModel);
+
+                    changer.addChange(a.getX(),a.getY());
+                    dominantGenotype.addGenotype(geno);
+                    animalArrayList.add(tempA);
+//                    this.createAnimal(
+//                            a.getX(),
+//                            a.getY(),
+//                            p.getKey().getEnergy()/4 + p.getValue().getEnergy()/4,
+//                            crossGenotype(p.getKey().getGenotype(),p.getValue().getGenotype(),
+//                                    p.getKey().getEnergy(), p.getValue().getEnergy()));
+
+
                     p.getValue().setEnergy(p.getValue().getEnergy()*3/4);
                     p.getKey().setEnergy(p.getKey().getEnergy()*3/4);
+
                     p.getKey().incrementAmtOfChildren();
                     p.getValue().incrementAmtOfChildren();
                     this.changer.addChange(a.getX(), a.getY());
+
                 }
                 isVisited[a.getX()][a.getY()] = true;
             }
 
         }
 
+        for(Animal a: animalArrayList){
+            worldModel.addAnimal(a);
+        }
     }
 
     public SimulationComponent getSimulationComponent(){
@@ -242,7 +268,7 @@ public class World {
 
         if(energy1 > energy2){
             int size =(int)( (energy1 / sum_energy)*32.0);
-            System.out.println(size);
+//            System.out.println(size);
             if(left){
                 stringBuilder.append(genotype1.substring(0,size));
                 stringBuilder.append(genotype2.substring(size, 32));
@@ -336,12 +362,73 @@ public class World {
         this.simulationComponent.getChartComponent().addSeriesData(this.statistic.getLastStatistic());
     }
 
+    public void applyMagic(){
+        Random random = new Random();
+        ArrayList<Animal> animalArrayList= new ArrayList<>();
+        for(Animal a: this.worldModel.getAnimals()){
+                int x = Math.abs(random.nextInt())%this.widthMap;
+                int y = Math.abs(random.nextInt())%this.heightMap;
+//                this.createAnimal(x,y,this.energyAnimal , a.getGenotype());
+                Animal ani = new Animal(x,y,this.energyAnimal, a.getGenotype(), this.worldModel);
+            changer.addChange(x,y);
+//            worldModel.addAnimal(ani);
+            dominantGenotype.addGenotype(a.getGenotype());
+            animalArrayList.add(ani);
+        }
+
+        for(Animal ani: animalArrayList){
+            worldModel.addAnimal(ani);
+        }
+
+
+        this.changer.applyView();
+//        applyViewEpoch();
+        applyViewGenotype();
+        applyViewChart();
+
+        new Thread(new Task<>(){
+
+            @Override
+            protected Object call() throws Exception {
+                Platform.runLater(()->{simulationComponent.setMagicEvolution("Magic!");});
+                try {
+                    Thread.sleep(7000);
+                } catch (Exception e){
+                    System.out.println(e);
+                }
+                Platform.runLater(()->{simulationComponent.setMagicEvolution("");});
+                return null;
+            }
+        }).start();
+
+    }
+
     public void startButton(){
-//        System.out.println("startButton()");
-//        moveAnimals();
-//        eatPlants();
-//        this.changer.applyView();
-        generateDay();
+        this.simulationRuns = true;
+        this.simulationThread = new Thread(new Task<>() {
+            @Override
+            protected Void call() throws Exception {
+                while(simulationRuns) {
+
+                    generateDay();
+
+                    try{
+                        Thread.sleep(timeDelay);
+                    }catch (Exception e){
+                        System.out.println("I was interrupted");
+                        System.out.println(e.toString());
+                    }
+
+                }
+                return null;
+            }
+        });
+        this.simulationThread.setDaemon(true);
+        this.simulationThread.start();
+    }
+
+    public void stopSimulation(){
+        this.simulationRuns = false;
     }
 
 }
