@@ -4,6 +4,7 @@ import agh.ics.oop.proj1.model.simulation.Animal;
 import javafx.util.Pair;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class Statistic {
 
@@ -35,4 +36,9 @@ public class Statistic {
     public int avgOfDead(){
         return  (int)(this.sumDaysAi / this.deadAnimals);
     }
+
+    public Iterator<Pair<Integer, Integer[]>> getIterator(){
+        return this.statistics.iterator();
+    }
+
 }

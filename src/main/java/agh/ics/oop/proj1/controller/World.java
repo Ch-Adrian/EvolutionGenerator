@@ -9,6 +9,7 @@ import javafx.concurrent.Task;
 import javafx.scene.paint.Color;
 import javafx.util.Pair;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -98,8 +99,8 @@ public class World {
             this.magicCounter ++;
         }
 
-        Integer avgEnergy = 0;
-        Integer avgChildren = 0;
+        int avgEnergy = 0;
+        int avgChildren = 0;
         for(Animal a: this.worldModel.getAnimals()){
             a.incremetDays();
             a.setEnergy(a.getEnergy()-energyDayLoss);
@@ -429,6 +430,50 @@ public class World {
 
     public void stopSimulation(){
         this.simulationRuns = false;
+    }
+
+    public void saveToFile(PrintWriter printWriter){
+
+        printWriter.println("Epoch;Living Animals;Living Plants;Average Energy;Average of Life;Average of Children;");
+
+        Iterator<Pair<Integer, Integer[]>> iter = this.statistic.getIterator();
+        int[] avg = new int[]{0,0,0,0,0};
+
+        int maxIdx = 0;
+        while(iter.hasNext()){
+            StringBuilder stringBuilder = new StringBuilder();
+            Pair<Integer, Integer[]> pair = iter.next();
+            stringBuilder.append(pair.getKey());
+            maxIdx = pair.getKey();
+            stringBuilder.append(";");
+            int i = 0;
+            for(Integer integer: pair.getValue()){
+                avg[i] += integer;
+                i++;
+                stringBuilder.append(integer);
+                stringBuilder.append(";");
+            }
+            printWriter.println(stringBuilder);
+        }
+
+        for(int i = 0; i<5; i++){
+            avg[i] = (int)(avg[i]/maxIdx);
+        }
+
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Average;");
+        stringBuilder.append(avg[0]);
+        stringBuilder.append(";");
+        stringBuilder.append(avg[1]);
+        stringBuilder.append(";");
+        stringBuilder.append(avg[2]);
+        stringBuilder.append(";");
+        stringBuilder.append(avg[3]);
+        stringBuilder.append(";");
+        stringBuilder.append(avg[4]);
+        stringBuilder.append(";");
+        printWriter.println(stringBuilder);
+
     }
 
 }

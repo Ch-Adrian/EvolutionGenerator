@@ -6,6 +6,11 @@ import agh.ics.oop.proj1.view.simulation.SimulationComponent;
 import agh.ics.oop.proj1.view.simulation.SimulationView;
 import javafx.scene.layout.HBox;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
 public class SimulationController {
 
     private SettingsModel settingsModel;
@@ -59,6 +64,40 @@ public class SimulationController {
             }
         }
         return this.simulationRuns;
+    }
+
+    public void saveToFile(){
+        File csvFile = new File("lastSimulationWorld1.csv");
+        if(csvFile.isFile()){
+            csvFile.delete();
+        }
+
+        try {
+            csvFile.createNewFile();
+
+            PrintWriter printWriter = new PrintWriter("lastSimulationWorld1.csv");
+            this.worldL.saveToFile(printWriter);
+            printWriter.close();
+
+        } catch(IOException ioE){
+            return;
+        }
+        if(isTwoMap){
+            File csvFile2 = new File("lastSimulationWorld2.csv");
+            if(csvFile2.isFile()){
+                csvFile2.delete();
+            }
+            try {
+                csvFile2.createNewFile();
+
+                PrintWriter printWriter = new PrintWriter("lastSimulationWorld2.csv");
+                this.worldR.saveToFile(printWriter);
+                printWriter.close();
+
+            } catch(IOException ioE){
+                return;
+            }
+        }
     }
 
     public HBox getSimulationView(){

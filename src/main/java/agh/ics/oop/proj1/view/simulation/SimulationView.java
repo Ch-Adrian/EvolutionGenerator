@@ -103,6 +103,10 @@ public class SimulationView {
         exportData = new Button("Export data");
         exportData.setPadding(new Insets(5,5,5,5));
         exportData.setPrefWidth(150);
+        exportData.setOnAction((event)->{
+            this.simulationController.saveToFile();
+        });
+
         dominantGenotype = new Button("Dominant genotype");
         dominantGenotype.setPadding(new Insets(5,5,5,5));
         dominantGenotype.setPrefWidth(150);
@@ -116,8 +120,6 @@ public class SimulationView {
         labelLegend.setFont(new Font(iconSize*3));
         labelMap = new Label("Map:");
         labelMap.setFont(new Font(iconSize*2));
-        labelChart = new Label("Chart:");
-        labelChart.setFont(new Font(iconSize*2));
 
         hBoxAnimal = new HBox();
         labelAnimal = new Label(" animal shape");
@@ -156,8 +158,7 @@ public class SimulationView {
         rectangleSteppe.setFill(colors[3]);
         hBoxSteppe.getChildren().addAll(rectangleSteppe, labelSteppe);
 
-        legendBox.getChildren().addAll(labelLegend,labelMap, hBoxAnimal, hBoxPlant, hBoxJungle, hBoxSteppe,
-                labelChart);
+        legendBox.getChildren().addAll(labelLegend,labelMap, hBoxAnimal, hBoxPlant, hBoxJungle, hBoxSteppe);
         legendBox.setPadding(new Insets(20, 5, 10, 5));
         legendBox.setAlignment(Pos.TOP_LEFT);
 
