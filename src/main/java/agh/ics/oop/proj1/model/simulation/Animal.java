@@ -3,11 +3,8 @@ package agh.ics.oop.proj1.model.simulation;
 import java.text.BreakIterator;
 import java.util.Objects;
 
-public class Animal {
+public class Animal extends MapElement implements ICanMove{
 
-    private int x;
-    private int y;
-    private int energy;
     private String genotype;
     private int amtOfChildren;
     private int days;
@@ -15,18 +12,14 @@ public class Animal {
     private WorldModel worldModel;
 
     public Animal(int x, int y, int energy, String g, WorldModel wM){
-        this.x = x;
-        this.y = y;
-        this.energy = energy;
+        super(x, y, energy);
         this.genotype = g;
         this.amtOfChildren = 0;
         this.days=0;
         this.worldModel = wM;
     }
     private Animal(int x, int y, int energy, String g, int amtOfChildren, int days, WorldModel wM){
-        this.x = x;
-        this.y = y;
-        this.energy = energy;
+        super(x, y, energy);
         this.genotype = g;
         this.amtOfChildren = amtOfChildren;
         this.days=days;
@@ -58,18 +51,6 @@ public class Animal {
         return amtOfChildren;
     }
 
-    public int getEnergy() {
-        return energy;
-    }
-
-    public int getX() {
-        return x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
     public String getGenotype() {
         return genotype;
     }
@@ -90,10 +71,6 @@ public class Animal {
 
     public void changeOrientation(int o){
         this.orientation = (this.orientation+o)%8;
-    }
-
-    public void setEnergy(int e){
-        this.energy = e;
     }
 
     public void move(){

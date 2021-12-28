@@ -91,6 +91,20 @@ public class SimulationView {
         settings = new BorderPane();
         legendBox = new VBox();
 
+        Button showDominant = new Button("Dominant map 1");
+        showDominant.setPadding(new Insets(5,5,5,5));
+        showDominant.setPrefWidth(150);
+        showDominant.setOnAction((event)->{
+            this.simulationController.showDominant();
+        });
+
+        Button showDominant2 = new Button("Dominant map 2");
+        showDominant2.setPadding(new Insets(5,5,5,5));
+        showDominant2.setPrefWidth(150);
+        showDominant2.setOnAction((event)->{
+            this.simulationController.showDominant2();
+        });
+
         start = new Button("Start Map 1");
         start.setPadding(new Insets(5,5,5,5));
         start.setPrefWidth(150);
@@ -134,7 +148,7 @@ public class SimulationView {
         dominantGenotype.setPrefWidth(150);
 
         buttonsBox = new VBox();
-        buttonsBox.getChildren().addAll(exportData, exportData2, start, start2);
+        buttonsBox.getChildren().addAll(showDominant, showDominant2, exportData, exportData2, start, start2);
         buttonsBox.setSpacing(10);
         int iconSize = 15;
 

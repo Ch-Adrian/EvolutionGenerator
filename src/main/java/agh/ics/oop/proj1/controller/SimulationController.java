@@ -76,6 +76,16 @@ public class SimulationController {
         return this.simulation2Runs;
     }
 
+    public void showDominant(){
+        this.worldL.showDominantGenotype();
+    }
+
+    public void showDominant2(){
+        if(isTwoMap){
+            this.worldR.showDominantGenotype();
+        }
+    }
+
 
 
     public void saveToFile(){

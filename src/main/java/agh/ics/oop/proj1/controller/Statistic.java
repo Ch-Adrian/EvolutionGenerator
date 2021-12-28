@@ -6,7 +6,7 @@ import javafx.util.Pair;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Statistic {
+public class Statistic implements IManageStatistics {
 
     private ArrayList<Pair<Integer, Integer[]>> statistics;
     private int deadAnimals = 0;

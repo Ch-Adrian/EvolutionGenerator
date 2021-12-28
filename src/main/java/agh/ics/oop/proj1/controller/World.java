@@ -478,4 +478,12 @@ public class World {
 
     }
 
+    public void showDominantGenotype(){
+        this.changer.showGenotype(this.dominantGenotype.getFirst());
+    }
+
+    public void hideDominantGenotype(){
+        this.changer.hideGenotype();
+    }
+
 }

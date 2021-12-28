@@ -4,6 +4,8 @@ import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Effect;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -14,7 +16,7 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 
-public class GridPaneComponent extends GridPane {
+public class GridPaneComponent extends GridPane implements IAmAMap{
 
     private GridPane gridPane;
     private final int size;
@@ -23,6 +25,7 @@ public class GridPaneComponent extends GridPane {
     private Rectangle[][] fields;
     private Circle[][] animals;
     private Polygon[][] plants;
+    private Effect eff = new DropShadow(15, Color.BLACK);
 
     private int polygonVar;
     private Color[] colors;// 0 - animal, 1 - plant, 2 - jungle, 3 - steppe
@@ -116,6 +119,12 @@ public class GridPaneComponent extends GridPane {
 
     public GridPane getGridPane() {
         return gridPane;
+    }
+
+    public void updateGridWithBorder(int x, int y, Color c){
+        animals[x][y].setFill(c);
+        plants[x][y].setFill(Color.TRANSPARENT);
+        animals[x][y].setEffect(eff);
     }
 
     public void updateGrid(int x, int y, Color c){
