@@ -11,11 +11,14 @@ programming paradigm.
 In simulation live creatures that roam, eat, reproduce and starve to death.
 The simulation can be set beforehand with initial parameters.
 
-In main menu we could choose one or two simulations: 
+In main menu we could choose one or two simulations:
+
 ![Main menu](images/main_menu.png)
 
 Initial settings:
+
 ![Settings](images/settings_view.png)
 
 Simulation view:
+
 ![Simulation](images/simulation_view.png)
